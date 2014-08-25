@@ -8,18 +8,21 @@ var mors = require('mors');
  * returning a new `Test`.
  *
  * @param {Function|Server} app
+ * @param {Number|Object} [port]
  * @param {Object} [opts]
  * @return {Test}
  * @api public
  */
 
-module.exports = function(app, opts){
-    if ('function' == typeof app) {
-        opts = opts || {};
-        opts.port = opts.port || 7911;
-        app = new mors.Server(app, opts);
+module.exports = function(app, port, opts){
+    if (typeof port === 'object') {
+        opts = port;
+        port = null;
     }
-    return new Test(app);
+    if ('function' == typeof app) {
+        app = new mors.Server(app, { port: port || 7910});
+    }
+    return new Test(app, opts || {});
 };
 
 /**
