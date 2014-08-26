@@ -1,6 +1,6 @@
 {
   "name": "morstest",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "index.js",
   "description": "A library testing node.js HTTP servers using a fluent API",
   "homepage": "https://github.com/taoyuan/morstest",

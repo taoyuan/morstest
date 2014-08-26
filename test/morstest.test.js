@@ -8,34 +8,36 @@ var t = s.t;
 
 describe('request(app)', function () {
     it('should fire up the app on an ephemeral port', function (done) {
-        var d = s.donner(2, done);
         var app = mors();
+        var clireq;
 
         app.route('/*', function (req) {
             t.equal(req.topic, '/foo');
             t.equal(req.payload, 'hey');
-            d();
+            clireq.end(done);
         });
 
-        request(app)
-            .publish('/foo', 'hey')
-            .end(d);
+        clireq = request(app)
+            .topic('/foo')
+            .payload('hey')
+            .publish();
     });
 
     it('should work with an active server', function (done) {
-        var d = s.donner(2, done);
         var app = mors();
+        var clireq;
 
         app.route('/*', function (req) {
             t.equal(req.topic, '/foo');
             t.equal(req.payload, 'hey');
-            d();
+            clireq.end(done);
         });
 
         var server = app.listen(7911, function () {
-            request(server)
-                .publish('/foo', 'hey')
-                .end(d);
+            clireq = request(server)
+                .topic('/foo')
+                .payload('hey')
+                .publish();
         });
     });
 });
