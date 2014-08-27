@@ -14,7 +14,7 @@ describe('request(app)', function () {
         app.route('/*', function (req) {
             t.equal(req.topic, '/foo');
             t.equal(req.payload, 'hey');
-            clireq.end(done);
+            clireq.close(done);
         });
 
         clireq = request(app)
@@ -30,7 +30,7 @@ describe('request(app)', function () {
         app.route('/*', function (req) {
             t.equal(req.topic, '/foo');
             t.equal(req.payload, 'hey');
-            clireq.end(done);
+            clireq.close(done);
         });
 
         var server = app.listen(7911, function () {
