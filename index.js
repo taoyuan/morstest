@@ -1,7 +1,6 @@
 "use strict";
 
 var Test = require('./lib/test');
-var mors = require('mors');
 
 /**
  * Test against the given `app`,
@@ -18,9 +17,6 @@ module.exports = function(app, port, opts){
     if (typeof port === 'object') {
         opts = port;
         port = null;
-    }
-    if ('function' == typeof app) {
-        app = new mors.Server(app, { port: port || 7910});
     }
     return new Test(app, opts || {});
 };

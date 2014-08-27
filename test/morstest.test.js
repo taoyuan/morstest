@@ -23,7 +23,7 @@ describe('request(app)', function () {
             .publish();
     });
 
-    it('should work with an active server', function (done) {
+    it('should publish with a message', function (done) {
         var app = mors();
         var clireq;
 
@@ -33,6 +33,23 @@ describe('request(app)', function () {
             clireq.close(done);
         });
 
+        clireq = request(app)
+            .topic('/foo')
+            .publish('hey');
+    });
+
+    it('should work with an active server', function (done) {
+        var app = mors();
+        var clireq;
+
+        app.route('/*', function (req) {
+            t.equal(req.topic, '/foo');
+            t.equal(req.payload, 'hey');
+            clireq.close(function () {
+                server.close(done);
+            });
+        });
+
         var server = app.listen(7911, function () {
             clireq = request(server)
                 .topic('/foo')
@@ -40,4 +57,5 @@ describe('request(app)', function () {
                 .publish();
         });
     });
+
 });
